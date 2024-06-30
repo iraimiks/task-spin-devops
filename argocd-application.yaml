@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://your-repo-url.git'
+    repoURL: 'https://github.com/iraimiks/task-spin-devops'
     targetRevision: HEAD
     path: app
   destination:
