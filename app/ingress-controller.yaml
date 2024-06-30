@@ -5,14 +5,14 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
-  - host: yourdomain.com
-    http:
+  - http:
       paths:
-      - path: /
+      - path: /hello
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            name: httpserver-service
             port:
               number: 82
