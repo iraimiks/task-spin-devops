@@ -24,4 +24,4 @@ spec:
           requests:
             cpu: "1"
             memory: "1Gi"
-        args: ["--cpu", "4", "--timeout", "60s"]
+        args: ["--cpu", "0","--cpu-load", "80", "--timeout", "120s"]
