@@ -1,27 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stress-ng-deployment
-  labels:
-    app: stress-ng
+  name: stress-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stress-ng
+      app: stress-test
   template:
     metadata:
       labels:
-        app: stress-ng
+        app: stress-test
     spec:
       containers:
-      - name: stress-ng
-        image: alexeiled/stress-ng:latest
+      - name: stress
+        image: jfusterm/stress:latest
+        args: ["-c", "4", "-m", "1", "--vm-bytes", "256M", "-i", "1"]
         resources:
           limits:
-            cpu: "2"
-            memory: "2Gi"
+            cpu: "500m"
+            memory: "512Mi"
           requests:
-            cpu: "1"
-            memory: "1Gi"
-        args: ["--cpu", "0","--cpu-load", "80", "--timeout", "120s"]
+            cpu: "250m"
+            memory: "256Mi"
