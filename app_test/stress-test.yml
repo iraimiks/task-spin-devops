@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stress-test
+  name: stress-ng-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stress-test
+      app: stress-ng-test
   template:
     metadata:
       labels:
-        app: stress-test
+        app: stress-ng-test
     spec:
       containers:
-      - name: stress
-        image: jfusterm/stress:latest
-        args: ["-c", "4", "-m", "1", "--vm-bytes", "256M", "-i", "1"]
+      - name: stress-ng
+        image: polinux/stress-ng:latest
+        args: ["--cpu", "4", "--vm", "2", "--vm-bytes", "128M", "--io", "1", "--timeout", "60s"]
         resources:
           limits:
             cpu: "500m"
