@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: stress-ng-test
+  name: stress-ng-test2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: stress-ng-test
+      app: stress-ng-test2
   template:
     metadata:
       labels:
-        app: stress-ng-test
+        app: stress-ng-test2
     spec:
       containers:
       - name: stress-ng
