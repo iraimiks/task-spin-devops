@@ -1,37 +1,62 @@
-apiVersion: apps/v1
-kind: Deployment
+---
+apiVersion: v1
+kind: Pod
 metadata:
-  name: stress-ng-deployment
+  name: ubuntu-pod-1
+  namespace: default
   labels:
-    app: stress-ng
+    app: ubuntu-pod
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: stress-ng
-  template:
-    metadata:
-      labels:
-        app: stress-ng
-    spec:
-      containers:
-      - name: stress-ng
-        image: alexeiled/stress-ng
-        args:
-          - "--cpu"
-          - "0"
-          - "--timeout"
-          - "60s"
-        securityContext:
-          privileged: true
-          capabilities:
-            add:
-              - SYS_ADMIN
-              - SYS_RAWIO
-        resources:
-          limits:
-            cpu: "1"
-            memory: "256Mi"
-          requests:
-            cpu: "0.5"
-            memory: "128Mi"
+  containers:
+  - name: ubuntu
+    image: ubuntu:22.04
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 800m
+        memory: 1Gi
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - ubuntu-pod
+        topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-pod-2
+  namespace: default
+  labels:
+    app: ubuntu-pod
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu:22.04
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+    resources:
+      requests:
+        cpu: 500m
+        memory: 256Mi
+      limits:
+        cpu: 1500m
+        memory: 512Mi
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - ubuntu-pod
+        topologyKey: "kubernetes.io/hostname"
